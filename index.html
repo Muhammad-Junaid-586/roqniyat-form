@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roqniyat Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .success-message {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1001;
+      width: 100%;
+      max-width: 500px;
+      padding: 10px;
+      text-align: center;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container py-5">
+    <form class="row g-3" method="post" action="" id="product" name="product">
+      <div class="col-md-6">
+        <label for="Roqniyat-No" class="form-label">Roqniyat No :رکنیت نمبر</label>
+        <input type="number" class="form-control" id="Roqniyat-No" name="Roqniyat-No" required>
+      </div>
+
+      <div class="col-md-6">
+        <label for="Name" class="form-label">Name : نام</label>
+        <input type="text" class="form-control" id="Name" name="Name" required>
+      </div>
+
+      <div class="col-md-6">
+        <label for="Parentage" class="form-label">Parentage/Spouse: ولدیت/زوجہ</label>
+        <input type="text" class="form-control" id="Parentage" name="Parentage" required>
+      </div>
+
+      <div class="col-md-6">
+        <label for="Cnic" class="form-label">CNIC : شناختی</label>
+        <input type="number" class="form-control" id="Cnic" name="Cnic" required>
+      </div>
+
+      <div class="col-md-6">
+        <label for="Contact" class="form-label">Contact Number : رابطہ نمبر</label>
+        <input type="number" class="form-control" id="Contact" name="Contact">
+      </div>
+
+      <div class="col-md-6">
+        <label for="Whatsapp" class="form-label">Whatsapp Number : واٹس ایپ نمبر</label>
+        <input type="number" class="form-control" id="Whatsapp" name="Whatsapp">
+      </div>
+
+      <div class="col-md-6">
+        <label for="Duration" class="form-label">Duration In Party: جماعت وابستگی</label>
+        <select id="Duration" class="form-select" name="Duration">
+          <option selected>پیدائشی</option>
+          <option>ایک سال سے</option>
+          <option>دو سال سے</option>
+          <option>تین سال سے</option>
+          <option>چار سال سے</option>
+          <option>پانچ سال سے</option>
+          <option>دس سال سے</option>
+          <option>پندرہ سال سے</option>
+          <option>پچیس سال سے</option>
+          <option>تیس سال سے</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="District" class="form-label">Districts: ضلع</label>
+        <select id="District" class="form-select" name="District">
+          <option selected>اورکزئی</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="Tehsil" class="form-label">Tehsils: تحصیل</label>
+        <select id="Tehsil" class="form-select" name="Tehsil" required>
+          <option>Select Tehsil</option>
+          <option value="لوئر اورکزئی">لوئر اورکزئی</option>
+          <option value="اپر اورکزئی">اپر اورکزئی</option>
+          <option value="سنٹرل اورکزئی">سنٹرل اورکزئی</option>
+          <option value="اسماعیل زئی">اسماعیل زئی</option>
+        </select>
+      </div>
+
+      <div class="col-md-6" id="villageCouncilContainer" style="display: none;">
+        <label for="VillageCouncil" class="form-label">Village Councils: ویلج کونسل</label>
+        <select id="VillageCouncil" class="form-select" name="VillageCouncil">
+          <!-- Options will be populated by JavaScript -->
+        </select>
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="overlay" class="overlay">
+    <div class="overlay-content">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Processing...</span>
+      </div>
+      <p>Processing...</p>
+    </div>
+  </div>
+
+  <div id="success" class="success-message">
+    <span id="successMsg">Thank you! Your form is submitted successfully.</span>
+    <span class="close-btn" onclick="closeSuccessMessage()">×</span>
+  </div>
+
+  <script>
+    const tehsilToVillages = {
+      "لوئر اورکزئی": [
+        "آنجانی", "خواہ درہ", "کارغان", "انڑخیل", "زیڑہ", "پلوسی", "گھڑی تال",
+        "قاسم خیل", "جلکا میلہ فیروز خیل", "چھپری فیروز خیل", "بیزوٹ", "خیال مات خان کلے",
+        "ٹانڈہ", "احمد خیل", "قلات", "کلایا", "کوریز", "درگئی", "ابی شال", "ترنگی"
+      ],
+      "اپر اورکزئی": [
+        "اخون کوٹ", "سمہ", "ارغینجہ", "شیوا پلا خیل", "باغناک", "سپیدار", "زختان",
+        "خادیزئی", "گل چیڑی", "کول", "پختانے", "ستر کلیے"
+      ],
+      "سنٹرل اورکزئی": [
+        "مشتی بازار", "تاغہ سام", "مندتی مشتی", "کاشا", "باگارہ مشتی", "رنگین خیل",
+        "وام پانڑا", "دران شیخان بالا", "گندا چن"
+      ],
+      "اسماعیل زئی": ["غلجو", "چنے کلے", "غوز گڑھ", "سیفل درہ", "بلند خیل"]
+    };
+
+    document.getElementById('Tehsil').addEventListener('change', function () {
+      const selectedTehsil = this.value;
+      const villageDropdown = document.getElementById('VillageCouncil');
+      const villageCouncilContainer = document.getElementById('villageCouncilContainer');
+
+      // Clear existing options
+      villageDropdown.innerHTML = '';
+
+      // Add new options
+      if (selectedTehsil) {
+        tehsilToVillages[selectedTehsil].forEach(function (village) {
+          const option = document.createElement('option');
+          option.text = village;
+          villageDropdown.add(option);
+        });
+
+        // Show the village councils dropdown
+        villageCouncilContainer.style.display = 'block';
+      } else {
+        // Hide the village councils dropdown if no tehsil is selected
+        villageCouncilContainer.style.display = 'none';
+      }
+    });
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzioTOfDJMjVpPQYQfZxPyNQJI4Ti8V-IlleoOsT7EzmqSHGgcC3VQTLRdCpIP0a07M/exec';
+    const form = document.forms['product'];
+    const overlay = document.getElementById('overlay');
+    const successDiv = document.getElementById('success');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const registerBtn = document.getElementById('registerBtn');
+
+      // Disable the register button
+      registerBtn.disabled = true;
+
+      // Show processing overlay
+      overlay.style.display = 'flex';
+
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+          // Hide processing overlay
+          overlay.style.display = 'none';
+
+          // Show success message
+          showSuccessMessage();
+
+          // Re-enable the register button
+          registerBtn.disabled = false;
+
+          // Optionally, you can reset the form here
+          form.reset();
+        })
+        .catch(error => {
+          console.error('Error!', error.message);
+
+          // Hide processing overlay
+          overlay.style.display = 'none';
+
+          // Re-enable the register button in case of error
+          registerBtn.disabled = false;
+        });
+    });
+
+    function showSuccessMessage() {
+      successDiv.style.display = 'block';
+      setTimeout(function () {
+        hideSuccessMessage();
+      }, 10000); // Auto hide after 10 seconds
+    }
+
+    function hideSuccessMessage() {
+      successDiv.style.display = 'none';
+    }
+
+    function closeSuccessMessage() {
+      hideSuccessMessage();
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
