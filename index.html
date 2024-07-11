@@ -50,30 +50,35 @@
       right: 10px;
       cursor: pointer;
     }
+
+    span {
+      color: red;
+    }
   </style>
 </head>
 
 <body>
 
+
   <div class="container py-5">
     <form class="row g-3" method="post" action="" id="product" name="product">
       <div class="col-md-6">
-        <label for="Roqniyat-No" class="form-label">Roqniyat No :رکنیت نمبر</label>
+        <label for="Roqniyat-No" class="form-label">Roqniyat No :رکنیت نمبر<span>(*)</span></label>
         <input type="number" class="form-control" id="Roqniyat-No" name="Roqniyat-No" required>
       </div>
 
       <div class="col-md-6">
-        <label for="Name" class="form-label">Name : نام</label>
+        <label for="Name" class="form-label">Name : نام<span>(*)</span></label>
         <input type="text" class="form-control" id="Name" name="Name" required>
       </div>
 
       <div class="col-md-6">
-        <label for="Parentage" class="form-label">Parentage/Spouse: ولدیت/زوجہ</label>
+        <label for="Parentage" class="form-label">Parentage/Spouse: ولدیت/زوجہ<span>(*)</span></label>
         <input type="text" class="form-control" id="Parentage" name="Parentage" required>
       </div>
 
       <div class="col-md-6">
-        <label for="Cnic" class="form-label">CNIC : شناختی</label>
+        <label for="Cnic" class="form-label">CNIC : شناختی<span>(*)</span></label>
         <input type="number" class="form-control" id="Cnic" name="Cnic" required>
       </div>
 
@@ -98,6 +103,7 @@
           <option>پانچ سال سے</option>
           <option>دس سال سے</option>
           <option>پندرہ سال سے</option>
+          <option>بیس سال سے</option>
           <option>پچیس سال سے</option>
           <option>تیس سال سے</option>
         </select>
@@ -111,7 +117,7 @@
       </div>
 
       <div class="col-md-6">
-        <label for="Tehsil" class="form-label">Tehsils: تحصیل</label>
+        <label for="Tehsil" class="form-label">Tehsils: تحصیل<span>(*)</span></label>
         <select id="Tehsil" class="form-select" name="Tehsil" required>
           <option>Select Tehsil</option>
           <option value="لوئر اورکزئی">لوئر اورکزئی</option>
